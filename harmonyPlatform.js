@@ -20,7 +20,7 @@ function HarmonyPlatform(log, config, api) {
 
   this.api = api;
 
-  AccessoryType = this.api.hap.Accessory.Categories;
+  AccessoryType = this.api.hap.Categories;
 
   if (!config) {
     log('No configuration found for homebridge-harmony');

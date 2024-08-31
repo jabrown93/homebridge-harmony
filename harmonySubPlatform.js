@@ -1,4 +1,4 @@
-var Service, Characteristic, Accessory, AccessControlManagement, AccessControlEvent;
+var Service, Characteristic, Accessory, Categories, AccessControlManagement, AccessControlEvent;
 const HarmonyBase = require('./harmonyBase').HarmonyBase;
 const HarmonyConst = require('./harmonyConst');
 const HarmonyTools = require('./harmonyTools.js');
@@ -13,6 +13,7 @@ function HarmonySubPlatform(log, config, api, mainPlatform) {
   Service = api.hap.Service;
   Characteristic = api.hap.Characteristic;
   Accessory = api.hap.Accessory;
+  Categories = api.hap.Categories;
   AccessControlManagement = api.hap.AccessControlManagement;
   AccessControlEvent = api.hap.AccessControlEvent;
 
@@ -188,7 +189,7 @@ HarmonySubPlatform.prototype = {
         myHarmonyAccessory = this.harmonyBase.createAccessory(this, name);
         accessoriesToAdd.push(myHarmonyAccessory);
       }
-      myHarmonyAccessory.category = Accessory.Categories.SWITCH;
+      myHarmonyAccessory.category = Categories.SWITCH;
       this._confirmedAccessories.push(myHarmonyAccessory);
     }
 
@@ -205,7 +206,7 @@ HarmonySubPlatform.prototype = {
             myHarmonyAccessory = this.harmonyBase.createAccessory(this, switchName);
             accessoriesToAdd.push(myHarmonyAccessory);
           }
-          myHarmonyAccessory.category = Accessory.Categories.SWITCH;
+          myHarmonyAccessory.category = Categories.SWITCH;
           this._confirmedAccessories.push(myHarmonyAccessory);
         }
 
@@ -241,7 +242,7 @@ HarmonySubPlatform.prototype = {
       accessoriesToAdd.push(myHarmonyAccessory);
     }
 
-    myHarmonyAccessory.category = Accessory.Categories.TELEVISION;
+    myHarmonyAccessory.category = Categories.TELEVISION;
     this._confirmedAccessories.push(myHarmonyAccessory);
 
     this.log('(' + this.name + ')' + 'INFO - configuring Main TV Service');
@@ -325,7 +326,7 @@ HarmonySubPlatform.prototype = {
       //acces control
       this.log('(' + this.name + ')' + 'INFO - configuring Access Control Service');
       let subType = this.name + ' AccessControlService';
-      this.accessControlService = myHarmonyAccessory.getServiceByUUIDAndSubType(this.name, subType);
+      this.accessControlService = myHarmonyAccessory.getServiceById(this.name, subType);
       var accessControl;
 
       if (!this.accessControlService) {
@@ -390,7 +391,7 @@ HarmonySubPlatform.prototype = {
 
   configureMainService: function (accessory) {
     let subType = this.name + ' TV';
-    this.mainService = accessory.getServiceByUUIDAndSubType(this.name, subType);
+    this.mainService = accessory.getServiceById(this.name, subType);
 
     if (!this.mainService) {
       this.log('(' + this.name + ')' + 'INFO - Creating TV Service');
@@ -435,7 +436,7 @@ HarmonySubPlatform.prototype = {
     this.mainService.activityId = activity.id;
 
     let subType = this.name + ' Volume';
-    this.tvSpeakerService = accessory.getServiceByUUIDAndSubType(this.name, subType);
+    this.tvSpeakerService = accessory.getServiceById(this.name, subType);
 
     if (!this.tvSpeakerService) {
       this.log('(' + this.name + ')' + 'INFO - Creating TV Speaker Service');
@@ -460,7 +461,7 @@ HarmonySubPlatform.prototype = {
 
   configureInputSourceService: function (accessory, inputName, inputId, activity, order) {
     let subType = inputName + ' Activity';
-    let inputSourceService = accessory.getServiceByUUIDAndSubType(this.name, subType);
+    let inputSourceService = accessory.getServiceById(this.name, subType);
 
     if (!inputSourceService) {
       this.log(
