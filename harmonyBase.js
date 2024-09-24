@@ -15,7 +15,7 @@ function HarmonyBase(api) {
   this.numberOfErrors = 0;
   this.generalErrorTimer = undefined;
   Accessory = api.platformAccessory;
-  AccessoryType = api.hap.Accessory.Categories;
+  AccessoryType = api.hap.Categories;
   UUIDGen = api.hap.uuid;
 }
 
@@ -1470,7 +1470,7 @@ HarmonyBase.prototype = {
 
   //SWITCH SERVICE
   getSwitchService(harmonyPlatform, accessory, switchName, serviceSubType) {
-    let service = accessory.getServiceByUUIDAndSubType(switchName, serviceSubType);
+    let service = accessory.getServiceById(switchName, serviceSubType);
     if (!service) {
       harmonyPlatform.log(
         '(' +
@@ -1608,7 +1608,7 @@ HarmonyBase.prototype = {
 
   //SLIDER SERVICE FOR VOLUME
   getSliderService(harmonyPlatform, accessory, sliderName, serviceSubType) {
-    let service = accessory.getServiceByUUIDAndSubType(sliderName, serviceSubType);
+    let service = accessory.getServiceById(sliderName, serviceSubType);
     if (!service) {
       harmonyPlatform.log(
         '(' +
